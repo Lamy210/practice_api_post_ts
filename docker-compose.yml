@@ -111,6 +111,20 @@ services:
     networks:
       - db-net
 
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"  # Web UI
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - db-net
+      
+    restart: unless-stopped
+
+
   # Nginx (リバースプロキシ) :contentReference[oaicite:16]{index=16}
   nginx:
     image: nginx:latest
@@ -131,6 +145,7 @@ volumes:
   mysql-data:
   mariadb-data:
   redis-data:
+  portainer_data:
 
 networks:
   db-net:
